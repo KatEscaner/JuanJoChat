@@ -5,7 +5,6 @@ import model.CloseSignal;
 import model.Group;
 import model.Message;
 
-
 import java.io.ObjectInputStream;
 
 public class ListenThread extends Thread{

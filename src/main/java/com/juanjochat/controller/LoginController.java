@@ -7,7 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.UserCredentials;
 
@@ -26,13 +28,16 @@ public class LoginController implements Initializable {
     TextField txtEmail;
 
     @FXML
-    TextField txtPassword;
+    PasswordField txtPassword;
 
     @FXML
     Button btnLogin;
 
     @FXML
     Button btnClear;
+
+    @FXML
+    AnchorPane acpLogin;
 
     boolean isLogged = false;
     @Override
@@ -56,10 +61,15 @@ public class LoginController implements Initializable {
                 try {
                     ChatApplication.objOut.writeObject(credentials);
                     ChatApplication.objOut.flush();
-                    Boolean a = ChatApplication.dataIn.readBoolean();
-                    if (a) {
+                    if (ChatApplication.dataIn.readBoolean()) {
+                        isLogged = true;
                         ChatApplication.creteListener();
                         showChat();
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Bad credentials");
+                        alert.setContentText("Account not found");
+                        alert.show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -67,7 +77,7 @@ public class LoginController implements Initializable {
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Bad credentials");
-                alert.setContentText("Incorrect credentials");
+                alert.setContentText("Write correctly credentials");
                 alert.show();
             }
         }
@@ -75,13 +85,15 @@ public class LoginController implements Initializable {
 
     private void showChat() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(ChatApplication.class.getResource("login.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(ChatApplication.class.getResource("chat.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 500, 400);
             Stage stage = new Stage();
             stage.setTitle("JuanJo's Chat");
             stage.setScene(scene);
             stage.show();
-            //this.clone();
+
+            Stage currentStage = (Stage) acpLogin.getScene().getWindow();
+            currentStage.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
