@@ -2,6 +2,7 @@ package com.juanjochat;
 
 import com.juanjochat.model.Group;
 import com.juanjochat.model.MessageGroup;
+import com.juanjochat.service.ListenThread;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -52,4 +53,8 @@ public class ChatApplication extends Application {
             messageGroup.addGroup(group.getId());
     }
 
+    public static void creteListener(){
+        ListenThread lt = new ListenThread(objIn);
+        lt.start();
+    }
 }

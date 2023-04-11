@@ -31,6 +31,7 @@ public class LoginController implements Initializable {
     @FXML
     Button btnClear;
 
+    boolean isLogged = false;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -44,23 +45,27 @@ public class LoginController implements Initializable {
     }
 
     public void getCredentials(){
-        String email = txtEmail.getText();
-        String password = txtPassword.getText();
-        if(checkEmail(email) && password != null && !password.equals("")){
-            UserCredentials credentials = new UserCredentials(email, password);
-            try {
-                ChatApplication.objOut.writeObject(credentials);
-                ChatApplication.objOut.flush();
-                if(ChatApplication.dataIn.readBoolean())
-                    showChat();
-            } catch (Exception e){
-                e.printStackTrace();
+        if (!isLogged) {
+            String email = txtEmail.getText();
+            String password = txtPassword.getText();
+            if (checkEmail(email) && password != null && !password.equals("")) {
+                UserCredentials credentials = new UserCredentials(email, password);
+                try {
+                    ChatApplication.objOut.writeObject(credentials);
+                    ChatApplication.objOut.flush();
+                    if (ChatApplication.dataIn.readBoolean()) {
+                        ChatApplication.creteListener();
+                        showChat();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Bad credentials");
+                alert.setContentText("Incorrect credentials");
+                alert.show();
             }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Bad credentials");
-            alert.setContentText("Incorrect credentials");
-            alert.show();
         }
     }
 
