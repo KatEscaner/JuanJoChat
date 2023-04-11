@@ -1,6 +1,7 @@
 module com.juanjochat {
     requires javafx.controls;
     requires javafx.fxml;
+    requires SharedLibrary;
 
 
     opens com.juanjochat to javafx.fxml;

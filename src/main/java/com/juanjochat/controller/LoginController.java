@@ -1,12 +1,15 @@
 package com.juanjochat.controller;
 
 import com.juanjochat.ChatApplication;
-import com.juanjochat.model.UserCredentials;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import model.UserCredentials;
 
 import java.io.DataInputStream;
 import java.io.ObjectInputStream;
@@ -37,8 +40,8 @@ public class LoginController implements Initializable {
         try {
             ChatApplication.socket = new Socket(InetAddress.getLocalHost(), ChatApplication.PORT);
             ChatApplication.objOut = new ObjectOutputStream(ChatApplication.socket.getOutputStream());
-            ChatApplication.objIn = new ObjectInputStream(ChatApplication.socket.getInputStream());
             ChatApplication.dataIn = new DataInputStream(ChatApplication.socket.getInputStream());
+            ChatApplication.objIn = new ObjectInputStream(ChatApplication.socket.getInputStream());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -53,7 +56,8 @@ public class LoginController implements Initializable {
                 try {
                     ChatApplication.objOut.writeObject(credentials);
                     ChatApplication.objOut.flush();
-                    if (ChatApplication.dataIn.readBoolean()) {
+                    Boolean a = ChatApplication.dataIn.readBoolean();
+                    if (a) {
                         ChatApplication.creteListener();
                         showChat();
                     }
@@ -70,7 +74,17 @@ public class LoginController implements Initializable {
     }
 
     private void showChat() {
-
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(ChatApplication.class.getResource("login.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 500, 400);
+            Stage stage = new Stage();
+            stage.setTitle("JuanJo's Chat");
+            stage.setScene(scene);
+            stage.show();
+            //this.clone();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean checkEmail(String email){

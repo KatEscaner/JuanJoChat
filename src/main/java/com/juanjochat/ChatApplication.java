@@ -1,12 +1,13 @@
 package com.juanjochat;
 
-import com.juanjochat.model.Group;
+
 import com.juanjochat.model.MessageGroup;
 import com.juanjochat.service.ListenThread;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Group;
 
 import java.io.DataInputStream;
 import java.io.IOException;

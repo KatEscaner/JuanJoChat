@@ -1,9 +1,9 @@
 package com.juanjochat.service;
 
 import com.juanjochat.ChatApplication;
-import com.juanjochat.model.CloseSignal;
-import com.juanjochat.model.Group;
-import com.juanjochat.model.Message;
+import model.CloseSignal;
+import model.Group;
+import model.Message;
 
 
 import java.io.ObjectInputStream;

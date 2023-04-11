@@ -1,7 +1,6 @@
 package com.juanjochat.model;
 
-import com.juanjochat.model.Message;
-
+import model.Message;
 
 import java.util.HashSet;
 import java.util.Set;
