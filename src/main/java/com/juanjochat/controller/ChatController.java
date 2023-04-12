@@ -1,6 +1,7 @@
 package com.juanjochat.controller;
 
 import com.juanjochat.ChatApplication;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,12 +18,16 @@ public class ChatController implements Initializable {
 
     public void updateGroupList() {
         ObservableList<model.Group> items = FXCollections.observableArrayList(ChatApplication.getAllGroups());
-        lvGroups.setItems(items);
+        try {
+            if (lvGroups != null)
+                Platform.runLater(() -> lvGroups.setItems(items));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         updateGroupList();
     }
-
-
 }

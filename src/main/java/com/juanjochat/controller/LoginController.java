@@ -100,15 +100,18 @@ public class LoginController implements Initializable {
 
     private void showChatWindow() {
         try {
+            Stage currentStage = (Stage) acpLogin.getScene().getWindow();
+            currentStage.close();
             FXMLLoader fxmlLoader = new FXMLLoader(ChatApplication.class.getResource("chat.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 1200, 900);
             Stage stage = new Stage();
             stage.setTitle("JuanJo's Chat");
             stage.setScene(scene);
+
+            ChatApplication.controller = fxmlLoader.getController();
             stage.show();
 
-            Stage currentStage = (Stage) acpLogin.getScene().getWindow();
-            currentStage.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

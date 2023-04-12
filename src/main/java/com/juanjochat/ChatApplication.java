@@ -27,6 +27,7 @@ public class ChatApplication extends Application {
     public static ObjectOutputStream objOut;
     public static ObjectInputStream objIn;
     public static DataInputStream dataIn;
+    public static ChatController controller = new ChatController();
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -53,9 +54,11 @@ public class ChatApplication extends Application {
     public static void addGroup(Group group){
         if(groups.add(group)) {
             messageGroup.addGroup(group.getId());
-            FXMLLoader loader = new FXMLLoader(ChatApplication.class.getResource("chat.fxml"));
-            ChatController controller = loader.getController();
-            controller.updateGroupList();
+            try {
+                controller.updateGroupList();
+            } catch (Exception e){
+                System.out.println(e);
+            }
         }
     }
 
