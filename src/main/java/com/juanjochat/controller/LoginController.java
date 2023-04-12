@@ -101,7 +101,7 @@ public class LoginController implements Initializable {
     private void showChatWindow() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(ChatApplication.class.getResource("chat.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 1000, 900);
+            Scene scene = new Scene(fxmlLoader.load(), 1200, 900);
             Stage stage = new Stage();
             stage.setTitle("JuanJo's Chat");
             stage.setScene(scene);

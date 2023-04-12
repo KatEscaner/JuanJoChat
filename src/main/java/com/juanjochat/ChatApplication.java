@@ -1,6 +1,7 @@
 package com.juanjochat;
 
 
+import com.juanjochat.controller.ChatController;
 import com.juanjochat.model.MessageGroup;
 import com.juanjochat.service.ListenThread;
 import javafx.application.Application;
@@ -50,12 +51,20 @@ public class ChatApplication extends Application {
         ChatApplication.close = close;
     }
     public static void addGroup(Group group){
-        if(groups.add(group))
+        if(groups.add(group)) {
             messageGroup.addGroup(group.getId());
+            FXMLLoader loader = new FXMLLoader(ChatApplication.class.getResource("chat.fxml"));
+            ChatController controller = loader.getController();
+            controller.updateGroupList();
+        }
     }
 
     public static void creteListener(){
         ListenThread lt = new ListenThread(objIn);
         lt.start();
+    }
+
+    public static Set<Group> getAllGroups(){
+        return groups;
     }
 }

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane fx:id="acpChat" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.juanjochat.controller.ChatController">
-
+<AnchorPane fx:id="acpChat" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.juanjochat.controller.ChatController">
+   <children>
+      <ListView fx:id="lvGroups" prefHeight="900.0" prefWidth="514.0" />
+   </children>
 </AnchorPane>
