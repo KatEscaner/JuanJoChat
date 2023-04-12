@@ -25,8 +25,8 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Button fx:id="btnLogin" layoutX="121.0" layoutY="312.0" mnemonicParsing="false" onAction="#getCredentials" text="Login" />
-      <Button fx:id="btnClear" layoutX="336.0" layoutY="312.0" mnemonicParsing="false" onAction="#clear" text="Clear" />
+      <Button fx:id="btnLogin" layoutX="121.0" layoutY="312.0" mnemonicParsing="false" onAction="#handleLoginButtonAction" text="Login" />
+      <Button fx:id="btnClear" layoutX="336.0" layoutY="312.0" mnemonicParsing="false" onAction="#handleClearButtonAction" text="Clear" />
       <PasswordField fx:id="txtPassword" layoutX="121.0" layoutY="221.0" prefHeight="25.0" prefWidth="258.0" />
    </children>
 </AnchorPane>

@@ -26,7 +26,6 @@ public class ListenThread extends Thread{
                     System.out.println(message);
                 } else if( obj instanceof Group group){
                     ChatApplication.addGroup(group);
-                    System.out.println(group);
                 }
             }
             ChatApplication.setClose(true);

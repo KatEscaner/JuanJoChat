@@ -52,11 +52,12 @@ public class LoginController implements Initializable {
         }
     }
 
-    public void getCredentials(){
+    @FXML
+    private void handleLoginButtonAction(){
         if (!isLogged) {
             String email = txtEmail.getText();
             String password = txtPassword.getText();
-            if (checkEmail(email) && password != null && !password.equals("")) {
+            if (isValidCredentials(email, password)) {
                 UserCredentials credentials = new UserCredentials(email, password);
                 try {
                     ChatApplication.objOut.writeObject(credentials);
@@ -64,29 +65,43 @@ public class LoginController implements Initializable {
                     if (ChatApplication.dataIn.readBoolean()) {
                         isLogged = true;
                         ChatApplication.creteListener();
-                        showChat();
+                        showChatWindow();
                     } else {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Bad credentials");
-                        alert.setContentText("Account not found");
-                        alert.show();
+                        showAlert("Incorrect credentials", "Account not fount");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Bad credentials");
-                alert.setContentText("Write correctly credentials");
-                alert.show();
+                showAlert("Bad credentials", "Write correctly credentials");
             }
         }
     }
 
-    private void showChat() {
+    private boolean isValidCredentials(String email, String password) {
+        return isValidEmail(email) && password != null && !password.isEmpty();
+    }
+
+    private boolean isValidEmail(String email) {
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+        if(email != null) {
+            Matcher matcher = pattern.matcher(email);
+            return matcher.find();
+        }
+        return false;
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.show();
+    }
+
+    private void showChatWindow() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(ChatApplication.class.getResource("chat.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 500, 400);
+            Scene scene = new Scene(fxmlLoader.load(), 1000, 900);
             Stage stage = new Stage();
             stage.setTitle("JuanJo's Chat");
             stage.setScene(scene);
@@ -99,18 +114,8 @@ public class LoginController implements Initializable {
         }
     }
 
-    private boolean checkEmail(String email){
-        Pattern pattern = Pattern
-                .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-        if(email != null) {
-            Matcher matcher = pattern.matcher(email);
-            return matcher.find();
-        }
-        return false;
-    }
-
-    public void clear(){
+    @FXML
+    private void handleClearButtonAction(){
         txtEmail.clear();
         txtPassword.clear();
     }
