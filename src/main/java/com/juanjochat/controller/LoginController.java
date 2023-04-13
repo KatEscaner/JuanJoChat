@@ -1,6 +1,7 @@
 package com.juanjochat.controller;
 
 import com.juanjochat.ChatApplication;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,8 +10,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import model.Message;
 import model.UserCredentials;
 
 import java.io.DataInputStream;
@@ -100,18 +104,28 @@ public class LoginController implements Initializable {
 
     private void showChatWindow() {
         try {
+            ChatApplication.setEmail(txtEmail.getText());
+
             Stage currentStage = (Stage) acpLogin.getScene().getWindow();
             currentStage.close();
+
             FXMLLoader fxmlLoader = new FXMLLoader(ChatApplication.class.getResource("chat.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 1200, 900);
             Stage stage = new Stage();
             stage.setTitle("JuanJo's Chat");
             stage.setScene(scene);
+            Image image = new Image("file:src/img/icon.png");
+            stage.getIcons().add(image);
+
+            stage.addEventHandler(WindowEvent.WINDOW_HIDDEN, e -> {
+                Platform.exit();
+                System.exit(0);
+            });
 
             ChatApplication.controller = fxmlLoader.getController();
             stage.show();
 
-
+            //ChatApplication.objOut.writeObject(new Message(1, "haha"));
         } catch (Exception e) {
             e.printStackTrace();
         }

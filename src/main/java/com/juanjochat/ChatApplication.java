@@ -7,6 +7,7 @@ import com.juanjochat.service.ListenThread;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import model.Group;
 
@@ -15,19 +16,22 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ChatApplication extends Application {
     public static final int PORT = 7000;
     private static volatile boolean close = false;
-    private static final Set<Group> groups = new HashSet<>();
+    private static final List<Group> groups = new ArrayList<>();
     public static MessageGroup messageGroup = new MessageGroup();
     public static Socket socket;
     public static ObjectOutputStream objOut;
     public static ObjectInputStream objIn;
     public static DataInputStream dataIn;
     public static ChatController controller = new ChatController();
+    private static String email;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -35,9 +39,9 @@ public class ChatApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 500, 400);
         stage.setTitle("JuanJo's Chat");
         stage.setScene(scene);
+        Image image = new Image("file:src/img/icon.png");
+        stage.getIcons().add(image);
         stage.show();
-
-
     }
 
     public static void main(String[] args) {
@@ -52,13 +56,10 @@ public class ChatApplication extends Application {
         ChatApplication.close = close;
     }
     public static void addGroup(Group group){
-        if(groups.add(group)) {
+        if(!groups.contains(group)) {
+            groups.add(group);
             messageGroup.addGroup(group.getId());
-            try {
-                controller.updateGroupList();
-            } catch (Exception e){
-                System.out.println(e);
-            }
+            updateChat();
         }
     }
 
@@ -67,7 +68,23 @@ public class ChatApplication extends Application {
         lt.start();
     }
 
-    public static Set<Group> getAllGroups(){
+    public static List<Group> getAllGroups(){
         return groups;
+    }
+
+    public static String getEmail() {
+        return email;
+    }
+
+    public static void setEmail(String email) {
+        ChatApplication.email = email;
+    }
+
+    public static void updateChat(){
+        try {
+            controller.updateGroupList();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
