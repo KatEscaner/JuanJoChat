@@ -13,14 +13,17 @@ import model.User;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class MessageListCell extends ListCell<Message> {
     private Group group;
     private static Map<Long, Color> userColors = new HashMap<>();
     private static Random random = new Random();
+    private static List<String> taboo = new ArrayList<>(
+            Arrays.asList("Bollocks", "Gormless", "Knobhead", "Minger", "Pillock", "Plonker", "Ponce",
+                    "Slag", "Prat", "Toff", "Cunt", "Slapper", "Fuck off", "Holy crap", "Idiot", "Stupid", "Dumbass",
+                    "What the fuck", "You are an asshole", "Suck it up", "I don’t give a damn", "Shit", "Motherfucker",
+                    "Dick", "Pussy", "Fuck"));
 
     public MessageListCell(Group group) {
         this.group = group;
@@ -44,15 +47,30 @@ public class MessageListCell extends ListCell<Message> {
                     .filter(user -> user.getId() == message.getSender())
                     .findFirst()
                     .orElse(null);
+
             String senderName = sender != null ? sender.getName() : String.valueOf(message.getSender());
             lblSenderName.setText(senderName);
             lblSenderName.setStyle("-fx-font-weight: bold; -fx-text-fill: #2f2f2f; -fx-font-size: 15px;");
-            lblContent.setText(message.getContent());
+
+            if (group.getFilter() > 0) {
+                String content = message.getContent();
+                for (String tabooWord : taboo) {
+                    if (content.toLowerCase().contains(tabooWord.toLowerCase())) {
+                        String replacement = tabooWord.charAt(0) + "*".repeat(tabooWord.length() - 1);
+                        content = content.replaceAll("(?i)" + tabooWord, replacement);
+                    }
+                }
+                lblContent.setText(content);
+            } else {
+                lblContent.setText(message.getContent());
+            }
             lblContent.setStyle("-fx-text-fill: #444444; -fx-font-size: 14px; -fx-font-weight: bold;");
+
             LocalDateTime timestamp = message.getTimestamp();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm");
             lblTimestampLabel.setText(timestamp.format(formatter));
             lblTimestampLabel.setStyle("-fx-font-size: 10pt; -fx-text-fill: #000;");
+
             messageContainer.getChildren().addAll(lblSenderName, lblContent, lblTimestampLabel);
             messageContainer.setStyle("-fx-font-weight: bold; -fx-padding: 10px; -fx-font-size: 13px;");
 
@@ -63,6 +81,8 @@ public class MessageListCell extends ListCell<Message> {
                 userColor = generateRandomColor();
                 userColors.put(userID, userColor);
             }
+
+
 
             // Set user color as background of message container
             messageContainer.setBackground(new Background(new BackgroundFill(userColor, null, null)));
@@ -78,6 +98,5 @@ public class MessageListCell extends ListCell<Message> {
         double brightness = 0.9 + random.nextDouble() * 0.1;
         return Color.hsb(hue, saturation, brightness);
     }
-
 }
 
