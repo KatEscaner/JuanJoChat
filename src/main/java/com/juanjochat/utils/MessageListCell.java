@@ -20,7 +20,7 @@ import java.util.Random;
 public class MessageListCell extends ListCell<Message> {
     private Group group;
     private static Map<Long, Color> userColors = new HashMap<>();
-    private Random random = new Random();
+    private static Random random = new Random();
 
     public MessageListCell(Group group) {
         this.group = group;
@@ -48,7 +48,7 @@ public class MessageListCell extends ListCell<Message> {
             lblSenderName.setText(senderName);
             lblSenderName.setStyle("-fx-font-weight: bold; -fx-text-fill: #2f2f2f; -fx-font-size: 15px;");
             lblContent.setText(message.getContent());
-            lblContent.setStyle("-fx-text-fill: #444444; -fx-font-size: 14px;");
+            lblContent.setStyle("-fx-text-fill: #444444; -fx-font-size: 14px; -fx-font-weight: bold;");
             LocalDateTime timestamp = message.getTimestamp();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm");
             lblTimestampLabel.setText(timestamp.format(formatter));
@@ -75,7 +75,7 @@ public class MessageListCell extends ListCell<Message> {
     private Color generateRandomColor() {
         double hue = random.nextDouble() * 360;
         double saturation = 0.3 + random.nextDouble() * 0.7;
-        double brightness = 0.8 + random.nextDouble() * 0.2;
+        double brightness = 0.9 + random.nextDouble() * 0.1;
         return Color.hsb(hue, saturation, brightness);
     }
 
