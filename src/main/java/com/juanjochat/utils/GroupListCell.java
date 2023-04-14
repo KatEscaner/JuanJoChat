@@ -1,6 +1,7 @@
 package com.juanjochat.utils;
 
 import com.juanjochat.ChatApplication;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -54,18 +55,17 @@ public class GroupListCell extends ListCell<Group> {
                 detail.setText(": " + latestMessage.getContent());
             }
 
-            setGraphic(layout);
-            title.setTooltip(createTooltip(item)); // Actualiza la línea
+            Platform.runLater(() -> setGraphic(layout));
+            title.setTooltip(createTooltip(item)); // Update toolTip text
             animateHover();
         }
     }
 
     private Tooltip createTooltip(Group item) {
-        String names = item.members.stream()
-                .map(User::getName)
-                .collect(Collectors.joining(", "));
         Tooltip tooltip = new Tooltip();
-        tooltip.setText(names);
+        tooltip.setText(item.members.stream()
+                .map(User::getName)
+                .collect(Collectors.joining(", ")));
         tooltip.setWrapText(true);
         tooltip.setMaxWidth(400);
         return tooltip;

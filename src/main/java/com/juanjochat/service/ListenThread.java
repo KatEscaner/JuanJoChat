@@ -23,7 +23,6 @@ public class ListenThread extends Thread{
                 // When server send a Message, it will be saved in the correct group
                 if (obj instanceof Message message) {
                     ChatApplication.messageGroup.addMessage(message.getGroup(), message);
-                    System.out.println(message);
                     ChatApplication.updateChat();
                 } else if( obj instanceof Group group){
                     ChatApplication.addGroup(group);
