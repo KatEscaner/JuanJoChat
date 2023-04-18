@@ -125,7 +125,7 @@ public class LoginController implements Initializable {
             ChatApplication.controller = fxmlLoader.getController();
             stage.show();
 
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }

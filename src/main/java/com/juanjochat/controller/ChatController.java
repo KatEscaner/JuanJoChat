@@ -59,7 +59,6 @@ public class ChatController implements Initializable {
 
             // Get selected group
             Group selectedGroup = lvGroups.getSelectionModel().getSelectedItem();
-            // Check if group is not null
             if (selectedGroup != null) {
                 // Update message list
                 lvMessage.setItems(null);
@@ -127,4 +126,3 @@ public class ChatController implements Initializable {
         }
     }
 }
-
