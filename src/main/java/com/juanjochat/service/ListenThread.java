@@ -28,7 +28,6 @@ public class ListenThread extends Thread{
                     ChatApplication.addGroup(group);
                 }
             }
-            ChatApplication.setClose(true);
             System.exit(0);
         } catch (Exception e) {
             e.printStackTrace();

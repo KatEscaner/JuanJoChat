@@ -23,7 +23,6 @@ import java.util.Set;
 
 public class ChatApplication extends Application {
     public static final int PORT = 7000;
-    private static volatile boolean close = false;
     private static final List<Group> groups = new ArrayList<>();
     public static MessageGroup messageGroup = new MessageGroup();
     public static Socket socket;
@@ -48,13 +47,7 @@ public class ChatApplication extends Application {
         launch();
     }
 
-    public static boolean isClose() {
-        return close;
-    }
 
-    public static void setClose(boolean close) {
-        ChatApplication.close = close;
-    }
     public static void addGroup(Group group){
         if(!groups.contains(group)) {
             groups.add(group);
